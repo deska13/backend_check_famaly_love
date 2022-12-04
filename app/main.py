@@ -21,7 +21,9 @@ app.add_middleware(
 )
 
 
-app.include_router(api_router)
+app.include_router(
+    api_router
+)
 
 
 if __name__ == "__main__":

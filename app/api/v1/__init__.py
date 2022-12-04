@@ -1,10 +1,13 @@
 from fastapi import APIRouter
 
 
-from .orders import router as order_router
+# from .orders import router as order_router
+from .client import router as client_router
 
 
-router = APIRouter(prefix="/v1")
+router = APIRouter(
+    prefix="/v1"
+)
 router.include_router(
-    router=order_router, prefix="/order", tags=["order"]
+    router=client_router, prefix="/client", tags=["client"]
 )

@@ -1,7 +1,28 @@
 version: '3.8'
 services:
   backend:
+    image: python:3.10.8-alpine
+    container_name: backed_check_famaly_love
     command: 
-      - uvicorn
+      - uvicorn 
+      - main:app 
+      - --reload
     port:
-      - 8000: 8000
+      - 8000:8000
+
+  db:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    container_name: db_check_famaly_love
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+networks:
+  default: 
+    external: 
+      name: mastics-external
+
+
+volumes:
+  pgdata:
