@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from ._base import BaseOrmModel
 
 
-class Client(BaseOrmModel):
+class OrmClient(BaseOrmModel):
     __tablename__ = "client"
 
     id = Column(Integer, primary_key=True, nullable=False)
@@ -12,7 +12,8 @@ class Client(BaseOrmModel):
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
     )
+    email = Column(Text)
 
-    batch_param = relationship("OrmBatchType")
-    pallets = relationship("OrmPallet", cascade="all, delete")
-    products = relationship("OrmProduct", cascade="all, delete")
+    images = relationship("OrmImage")
+    order = relationship("OrmOrder", cascade="all, delete")
+    quiz = relationship("OrmQuiz", cascade="all, delete")

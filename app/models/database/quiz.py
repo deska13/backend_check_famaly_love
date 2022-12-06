@@ -1,16 +1,11 @@
-import enum
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Text, func, Boolean
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Text, func, Boolean, ARRAY
 from sqlalchemy.orm import relationship
 
 from ._base import BaseOrmModel
+from ..quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeas
 
 
-class PolitViewEnum(enum.Enum):
-    no: 'no'
-    yes: 'yes'
-
-
-class Client(BaseOrmModel):
+class OrmQuiz(BaseOrmModel):
     __tablename__ = "quiz"
 
     id = Column(Integer, primary_key=True, nullable=False)
@@ -23,19 +18,15 @@ class Client(BaseOrmModel):
     weight_difference = Column(Integer)
     age_difference = Column(Integer)
     alcoholism = Column(Boolean)
-    political_views_difference = Column(PolitViewEnum)
-    leisure_preferences_coincide = Column(Text)
-    education_level = Column(Boolean)
-    salary_male = Column()
-    salary_female = Column()
-    housing = Column()
-    explore_together = Column()
-    exchange_ideas = Column()
-    economy_sector_male = Column()
-    economy_sector_female = Column()
-    
-    
-    
-    
+    political_views_difference = Column(Boolean)
+    leisure_preferences_coincide = Column(LeisurePreferencesCoincideEnum)
+    education_level = Column(EducationLevelEnum)
+    salary_male = Column(Integer)
+    salary_female = Column(Integer)
+    housing = Column(HousingEnum)
+    explore_together = Column(ExploreTogetherEnum)
+    exchange_ideas = Column(ExchangeIdeas)
+    economy_sector_male = Column(ARRAY(Integer))
+    economy_sector_female = Column(ARRAY(Integer))
 
-    client = relationship("Client")
+    client = relationship("OrmClient")

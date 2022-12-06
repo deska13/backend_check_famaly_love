@@ -1,10 +1,10 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Text, func
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Text, func, Boolean
 from sqlalchemy.orm import relationship
 
 from ._base import BaseOrmModel
 
 
-class Image(BaseOrmModel):
+class OrmImage(BaseOrmModel):
     __tablename__ = "image"
 
     id = Column(Integer, primary_key=True, nullable=False)
@@ -13,6 +13,7 @@ class Image(BaseOrmModel):
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
     )
-    image = Column()
+    image = Column(Text)
+    is_male = Column(Boolean)
 
-    client = relationship("Client")
+    client = relationship("OrmClient")

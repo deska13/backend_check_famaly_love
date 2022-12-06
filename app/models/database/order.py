@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from ._base import BaseOrmModel
 
 
-class Image(BaseOrmModel):
+class OrmOrder(BaseOrmModel):
     __tablename__ = "image"
 
     id = Column(Integer, primary_key=True, nullable=False)
@@ -15,4 +15,4 @@ class Image(BaseOrmModel):
     )
     is_pay = Column(Boolean, default=False)
 
-    client = relationship("Client")
+    client = relationship("OrmClient")
