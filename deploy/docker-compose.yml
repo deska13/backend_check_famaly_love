@@ -1,27 +1,41 @@
 version: '3.8'
 services:
-  backend:
+  backed_famaly_love:
     image: python:3.10.8-alpine
-    container_name: backed_check_famaly_love
+    container_name: backed_famaly_love
     command: 
       - uvicorn 
       - main:app 
       - --reload
+    volumes:
+      - ../app:/app
     port:
       - 8000:8000
+    logging:
+      driver: none
 
-  db:
+  ml_famaly_love:
+    image: python:3.10.8-alpine
+    container_name: ml_famaly_love
+
+  quiz_famaly_love:
+    image: python:3.10.8-alpine
+    container_name: quiz_famaly_love
+
+  db_famaly_love:
     image: postgres:13-alpine
     restart: unless-stopped
-    container_name: db_check_famaly_love
+    container_name: db_famaly_love
     volumes:
       - pgdata:/var/lib/postgresql/data
+    logging:
+      driver: none
 
 
 networks:
   default: 
     external: 
-      name: mastics-external
+      name: backend
 
 
 volumes:

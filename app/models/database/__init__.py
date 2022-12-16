@@ -1,4 +1,3 @@
 from .client import OrmClient
-from .image import OrmImage
-from .order import OrmOrder
-from .quiz import OrmQuiz
+from .famaly_love_image import OrmFamalyLoveImage
+from .famaly_love_quiz import OrmFamalyLoveQuiz

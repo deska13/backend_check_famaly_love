@@ -2,21 +2,25 @@ from enum import Enum
 
 
 class LeisurePreferencesCoincideEnum(Enum):
-    no: 'no'
-    yes: 'yes'
+    NO = 'Нет'
+    YES = 'Да'
 
 
 class EducationLevelEnum(Enum):
-    pass
+    NO = 'Нет'
+    YES = 'Да'
 
 
 class HousingEnum(Enum):
-    pass
+    NO = 'Нет'
+    YES = 'Да'
 
 
 class ExploreTogetherEnum(Enum):
-    pass
+    NO = 'Нет'
+    YES = 'Да'
 
 
 class ExchangeIdeas(Enum):
-    pass
+    NO = 'Нет'
+    YES = 'Да'

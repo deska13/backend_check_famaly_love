@@ -1,5 +1,5 @@
 from._base import BaseAPIModel
 
 
-class Client(BaseAPIModel):
-    pass
+class ClientId(BaseAPIModel):
+    client_id: int

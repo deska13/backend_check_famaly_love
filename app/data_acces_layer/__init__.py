@@ -1,0 +1,1 @@
+from .famaly_love_quiz import DALFamalyLoveQuiz, get_DAL_famaly_love_quiz

@@ -1,45 +1,30 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter
+from .models import ClientId
 
 
 router = APIRouter()
 
 
-@router.get(
-    path='/status'
-)
-async def get_status_client():
-    return 0
+# @router.post(
+#     path='/create',
+# )
+# async def create_client():
+#     return 'Оно просто существует'
 
 
 @router.get(
-    path='/{id}/processing_promblems'
+    path='/{id}',
+    response_model=ClientId
 )
-async def get_processing_promblems(
+async def get_client(
     id: int
 ):
-    return 0
+    return ClientId(client_id=id)
 
 
 @router.get(
-    path='/{id}/result'
+    path='/count',
+    response_model=int
 )
-async def get_result(
-    id: int
-):
-    return 0
-
-
-@router.post(
-    path='/'
-)
-async def create_client():
-    return 0
-
-
-@router.put(
-    path='/{id}/images'
-)
-async def reinit_images(
-    id: int
-):
+async def get_count():
     return 0

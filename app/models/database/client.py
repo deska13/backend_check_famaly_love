@@ -12,8 +12,5 @@ class OrmClient(BaseOrmModel):
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
     )
-    email = Column(Text)
 
-    images = relationship("OrmImage")
-    order = relationship("OrmOrder", cascade="all, delete")
-    quiz = relationship("OrmQuiz", cascade="all, delete")
+    famaly_love_quizes = relationship("OrmQuiz", cascade="all, delete")

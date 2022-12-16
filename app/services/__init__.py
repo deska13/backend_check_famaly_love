@@ -1,0 +1,1 @@
+from .famaly_love_quiz import FamalyLoveQuizService, get_famaly_love_quiz
