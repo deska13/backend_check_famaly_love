@@ -9,7 +9,6 @@ class OrmFamalyLoveImage(BaseOrmModel):
 
     id = Column(Integer, primary_key=True, nullable=False)
     famaly_love_quiz_id = Column(Integer, ForeignKey("famaly_love_quiz.id"), nullable=False, index=True)
-    
     created_at = Column(DateTime, default=func.now(), nullable=False, index=True)
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
