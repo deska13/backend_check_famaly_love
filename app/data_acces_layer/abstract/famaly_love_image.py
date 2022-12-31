@@ -12,10 +12,10 @@ class AbstractDALFamalyLoveQuiz(BaseAbstractDataAccessLayer):
     ) -> None:
         pass
 
-    @abstractmethod
-    async def update_by_id(
-        self: 'AbstractDALFamalyLoveQuiz',
-        id: int,
-        image_path: str
-    ) -> None:
-        pass
+    # @abstractmethod
+    # async def update_by_id(
+    #     self: 'AbstractDALFamalyLoveQuiz',
+    #     id: int,
+    #     image_path: str
+    # ) -> None:
+    #     pass

@@ -1,22 +1,23 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Text, func, Boolean
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Text, func, Boolean, ARRAY
 from sqlalchemy.orm import relationship
 
 from ._base import BaseOrmModel
 
 
-class OrmFamalyLoveImage(BaseOrmModel):
-    __tablename__ = "image"
+class OrmSMOLQuiz(BaseOrmModel):
+    __tablename__ = "smol_quiz"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    famaly_love_quiz_id = Column(Integer, ForeignKey("famaly_love_quiz.id"), nullable=False, index=True)
+    compatibility_quiz_id = Column(Integer, ForeignKey("compatibility_quiz.id"), nullable=False, index=True)
     created_at = Column(DateTime, default=func.now(), nullable=False, index=True)
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
     )
-    image_path = Column(Text)
+
     is_male = Column(Boolean)
+    quiz = Column(ARRAY(Boolean))
     
     result = Column(Text)
 
-    famaly_love_quiz = relationship("OrmFamalyLoveQuiz")
     client = relationship("OrmClient")
+    compatibility_quiz = relationship("OrmCompatibilityQuiz")

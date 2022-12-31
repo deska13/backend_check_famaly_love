@@ -2,14 +2,14 @@ from sqlalchemy import Column, DateTime, ForeignKey, Integer, Text, func, Boolea
 from sqlalchemy.orm import relationship
 
 from ._base import BaseOrmModel
-from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeas
+from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeasEnum
 
 
 class OrmFamalyLoveQuiz(BaseOrmModel):
     __tablename__ = "famaly_love_quiz"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    client_id = Column(Integer, ForeignKey("client.id"), nullable=False, index=True)
+    compatibility_quiz_id = Column(Integer, ForeignKey("compatibility_quiz.id"), nullable=False, index=True)
     created_at = Column(DateTime, default=func.now(), nullable=False, index=True)
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
@@ -25,7 +25,7 @@ class OrmFamalyLoveQuiz(BaseOrmModel):
     salary_female = Column(Integer)
     housing = Column(Enum(HousingEnum))
     explore_together = Column(Enum(ExploreTogetherEnum))
-    exchange_ideas = Column(Enum(ExchangeIdeas))
+    exchange_ideas = Column(Enum(ExchangeIdeasEnum))
     economy_sector_male = Column(ARRAY(Integer))
     economy_sector_female = Column(ARRAY(Integer))
 
@@ -36,7 +36,9 @@ class OrmFamalyLoveQuiz(BaseOrmModel):
 
     is_ml_processing = Column(Boolean)
     is_quiz_processing = Column(Boolean)
+
     result = Column(Text)
 
+    compatibility_quiz = relationship("OrmCompatibilityQuiz")
     images = relationship("OrmImage")
     client = relationship("OrmClient")

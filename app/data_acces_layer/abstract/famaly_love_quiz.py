@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from typing import Optional, List
-from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeas
+from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeasEnum
 
 from ._base import BaseAbstractDataAccessLayer
 
@@ -20,7 +20,7 @@ class AbstractDALFamalyLoveImage(BaseAbstractDataAccessLayer):
         salary_female: int,
         housing: HousingEnum,
         explore_together: ExploreTogetherEnum,
-        exchange_ideas: ExchangeIdeas,
+        exchange_ideas: ExchangeIdeasEnum,
         economy_sector_male: List[int],
         economy_sector_female: List[int],
         images: int,

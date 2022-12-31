@@ -13,4 +13,4 @@ class OrmClient(BaseOrmModel):
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
     )
 
-    famaly_love_quizes = relationship("OrmQuiz", cascade="all, delete")
+    compatibility_quiz = relationship("OrmQuiz", cascade="all, delete")

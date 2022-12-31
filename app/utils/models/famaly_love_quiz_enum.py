@@ -21,6 +21,6 @@ class ExploreTogetherEnum(Enum):
     YES = 'Да'
 
 
-class ExchangeIdeas(Enum):
+class ExchangeIdeasEnum(Enum):
     NO = 'Нет'
     YES = 'Да'

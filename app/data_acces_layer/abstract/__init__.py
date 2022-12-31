@@ -1,3 +1,6 @@
 from .client import AbstractDALClient
+from .compatibility_quiz import AbstractDALCompatibilityQuiz
 from .famaly_love_image import AbstractDALFamalyLoveQuiz
 from .famaly_love_quiz import AbstractDALFamalyLoveImage
+from .mbti_quiz import AbstractDALMBTIQuiz
+from .smol_quiz import AbstractDALSMOLQuiz

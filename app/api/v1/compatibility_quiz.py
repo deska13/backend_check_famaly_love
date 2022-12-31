@@ -1,7 +1,6 @@
-from fastapi import APIRouter, HTTPException, Depends
-from .models import FamalyLoveImages, FamalyLoveQuiz, ResultFamalyLoveQuiz, StatusProcessingQuizEnum, FamalyLoveQuizId
+from fastapi import APIRouter, Depends
 from services import FamalyLoveQuizService, get_famaly_love_quiz
-
+from .models import CompatibilityQuiz, ResultCompatibilityQuiz, StatusProcessingCompatibilityQuizEnum, FamalyLoveImages
 
 router = APIRouter()
 
@@ -11,10 +10,10 @@ router = APIRouter()
     #response_model=FamalyLoveQuizId
 )
 async def send_quiz_famaly_love(
-    famaly_love_quiz: FamalyLoveQuiz,
-    famaly_love_quiz_service: FamalyLoveQuizService = Depends(get_famaly_love_quiz)
+    compatibility_quiz_router_quiz: CompatibilityQuiz,
+    compatibility_quiz_service: FamalyLoveQuizService = Depends(get_famaly_love_quiz)
 ):
-    return famaly_love_quiz
+    return compatibility_quiz_router_quiz
     famaly_love_quiz = await famaly_love_quiz_service.create(
         **famaly_love_quiz.dict()
     )
@@ -23,13 +22,13 @@ async def send_quiz_famaly_love(
 
 @router.get(
     path='/{id}/result',
-    response_model=ResultFamalyLoveQuiz
+    response_model=ResultCompatibilityQuiz
 )
 async def get_result(
     id: int
 ):
-    return ResultFamalyLoveQuiz(
-        status=StatusProcessingQuizEnum.ERROR,
+    return ResultCompatibilityQuiz(
+        status=StatusProcessingCompatibilityQuizEnum.ERROR,
         traceback='Сервис не реализован',
         description='Текст'
     )

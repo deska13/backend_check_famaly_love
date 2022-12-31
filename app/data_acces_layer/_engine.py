@@ -3,8 +3,11 @@ from sqlalchemy.orm import sessionmaker
 from core import PostgresSetting
 
 
+postgres_setting = PostgresSetting(_env_file='config/postgres.env')
+
+
 _engine = create_async_engine(
-    PostgresSetting().postgres_async_connect,
+    postgres_setting.postgres_async_connect,
     echo=True,
 )
 
