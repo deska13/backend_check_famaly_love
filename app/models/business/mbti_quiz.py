@@ -1,6 +1,7 @@
-from._base import BaseAPIModel
-from datetime import datetime
 from typing import List, Optional
+from datetime import datetime
+from ._base import BaseAPIModel
+
 
 class BusinessMBTIQuiz(BaseAPIModel):
     id: int
@@ -9,9 +10,13 @@ class BusinessMBTIQuiz(BaseAPIModel):
     updated_at: datetime
 
     is_male: bool
-    organizing: List[int]
-    communicability: List[int]
-    practicality: List[int]
-    logicality: List[int]
+    first_organizing: List[int]
+    first_communicability: List[int]
+    first_practicality: List[int]
+    first_logicality: List[int]
+    second_organizing: List[int]
+    second_communicability: List[int]
+    second_practicality: List[int]
+    second_logicality: List[int]
 
     result: Optional[str]

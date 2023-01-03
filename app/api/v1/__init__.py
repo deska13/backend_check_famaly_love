@@ -10,6 +10,7 @@ router = APIRouter(
     prefix="/v1"
 )
 
+
 @router.get(
     path='/todo'
 )
@@ -19,14 +20,14 @@ async def get_todo():
         'DAL model': True,
         'Service model': True,
         'Валидация': False,
-        
+
         'DAL queries': 'Почти доделал',
         'Service': 'Делаю вместе с DAL',
         'Api route': True,
-        
+
         'Processing quiz': 'Что тут вообще должно быть? Как обрабатывается опрос?',
         'Processing ML': True,
-        
+
         'Test': False
     }
 
@@ -36,4 +37,3 @@ async def get_todo():
 router.include_router(
     router=compatibility_quiz_router, prefix="/compatibility_quiz", tags=["compatibility_quiz"]
 )
-

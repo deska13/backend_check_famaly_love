@@ -1,75 +1,71 @@
-from ._engine import _postgres_async_session
 from models.database import OrmClient, OrmFamalyLoveQuiz
 from sqlalchemy import asc, func, select, text
 from sqlalchemy.orm import selectinload
 from .abstract import AbstractDALClient
 from functools import lru_cache
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class DALClient(AbstractDALClient):
     async def create(
-        self: 'DALClient'
+        self: 'DALClient',
+        session: AsyncSession
     ) -> OrmClient:
-        async with _postgres_async_session() as session:
-            orm_client = OrmClient()
-            session.add(orm_client)
-            await session.commit()
-            await session.refresh(orm_client)
-            return await self.get_by_id(orm_client.id)
-
+        orm_client = OrmClient()
+        session.add(orm_client)
+        await session.flush()
+        await session.refresh(orm_client)
+        return orm_client
 
     async def get_by_id(
         self: 'DALClient',
-        id: int
+        id: int,
+        session: AsyncSession
     ) -> OrmClient:
-        async with _postgres_async_session() as session:
-            orm_client = await session.execute(
-                select(OrmClient)
+        orm_client = await session.execute(
+            select(OrmClient)
+            .options(
+                selectinload(OrmClient.famaly_love_quizes)
                 .options(
-                    selectinload(OrmClient.famaly_love_quizes)
-                    .options(
-                        selectinload(OrmFamalyLoveQuiz.images)
-                    )
+                    selectinload(OrmFamalyLoveQuiz.images)
                 )
-                .options(selectinload(OrmClient.orders))
-                .where(OrmClient.id == id)
             )
-            return orm_client.scalar()
-
+            .options(selectinload(OrmClient.orders))
+            .where(OrmClient.id == id)
+        )
+        return orm_client.scalar()
 
     async def get_count(
-        self: 'DALClient'
+        self: 'DALClient',
+        session: AsyncSession
     ) -> int:
-        async with _postgres_async_session() as session:
-            count = await session.execute(
-                select(
-                    func.count()
-                )
-                .select_from(OrmClient)
+        count = await session.execute(
+            select(
+                func.count()
             )
-            return count.scalar()
-
+            .select_from(OrmClient)
+        )
+        return count.scalar()
 
     async def delete_by_id(
         self: 'DALClient',
-        id: int
+        id: int,
+        session: AsyncSession
     ) -> OrmClient:
-        async with _postgres_async_session() as session:
-            orm_client = await session.execute(
-                select(OrmClient)
+        orm_client = await session.execute(
+            select(OrmClient)
+            .options(
+                selectinload(OrmClient.famaly_love_quizes)
                 .options(
-                    selectinload(OrmClient.famaly_love_quizes)
-                    .options(
-                        selectinload(OrmFamalyLoveQuiz.images)
-                    )
+                    selectinload(OrmFamalyLoveQuiz.images)
                 )
-                .where(OrmClient.id == id)
             )
-            if not orm_client:
-                return None
-            await session.delete(orm_client)
-            await session.commit()
-            return orm_client
+            .where(OrmClient.id == id)
+        )
+        if not orm_client:
+            return None
+        await session.delete(orm_client)
+        return orm_client
 
 
 @lru_cache()

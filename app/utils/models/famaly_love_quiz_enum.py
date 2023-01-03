@@ -2,25 +2,29 @@ from enum import Enum
 
 
 class LeisurePreferencesCoincideEnum(Enum):
-    NO = 'Нет'
-    YES = 'Да'
+    NO = 'Не совпадают'
+    PARTLY = '50/50'
+    YES = 'Совпадают'
 
 
 class EducationLevelEnum(Enum):
-    NO = 'Нет'
-    YES = 'Да'
+    NO = 'Не совпадают'
+    YES = 'Совпадают'
 
 
 class HousingEnum(Enum):
-    NO = 'Нет'
-    YES = 'Да'
+    NO = 'Не своя'
+    YES = 'Своя'
+    MORTAGE = 'Ипотека'
 
 
 class ExploreTogetherEnum(Enum):
     NO = 'Нет'
-    YES = 'Да'
+    SOMETIMES = 'Иногда'
+    YES = 'Всегда'
 
 
 class ExchangeIdeasEnum(Enum):
     NO = 'Нет'
-    YES = 'Да'
+    SOMETIMES = 'Иногда'
+    YES = 'Всегда'

@@ -8,19 +8,25 @@ class OrmMBTIQuiz(BaseOrmModel):
     __tablename__ = "mbti_quiz"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    compatibility_quiz_id = Column(Integer, ForeignKey("compatibility_quiz.id"), nullable=False, index=True)
-    created_at = Column(DateTime, default=func.now(), nullable=False, index=True)
+    compatibility_quiz_id = Column(Integer, ForeignKey(
+        "compatibility_quiz.id"), nullable=False, index=True)
+    created_at = Column(DateTime, default=func.now(),
+                        nullable=False, index=True)
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
     )
-    
+
     is_male = Column(Boolean)
-    organizing = Column(ARRAY(Integer))
-    communicability = Column(ARRAY(Integer))
-    practicality = Column(ARRAY(Integer))
-    logicality = Column(ARRAY(Integer))
+    first_organizing = Column(ARRAY(Integer))
+    first_communicability = Column(ARRAY(Integer))
+    first_practicality = Column(ARRAY(Integer))
+    first_logicality = Column(ARRAY(Integer))
+
+    second_organizing = Column(ARRAY(Integer))
+    second_communicability = Column(ARRAY(Integer))
+    second_practicality = Column(ARRAY(Integer))
+    second_logicality = Column(ARRAY(Integer))
 
     result = Column(Text)
 
-    client = relationship("OrmClient")
     compatibility_quiz = relationship("OrmCompatibilityQuiz")

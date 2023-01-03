@@ -8,15 +8,17 @@ class OrmFamalyLoveImage(BaseOrmModel):
     __tablename__ = "image"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    famaly_love_quiz_id = Column(Integer, ForeignKey("famaly_love_quiz.id"), nullable=False, index=True)
-    created_at = Column(DateTime, default=func.now(), nullable=False, index=True)
+    famaly_love_quiz_id = Column(Integer, ForeignKey(
+        "famaly_love_quiz.id"), nullable=False, index=True)
+    created_at = Column(DateTime, default=func.now(),
+                        nullable=False, index=True)
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
     )
     image_path = Column(Text)
     is_male = Column(Boolean)
-    
+    is_processing = Column(Boolean)
+
     result = Column(Text)
 
     famaly_love_quiz = relationship("OrmFamalyLoveQuiz")
-    client = relationship("OrmClient")

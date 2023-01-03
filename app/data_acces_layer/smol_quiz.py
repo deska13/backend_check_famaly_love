@@ -2,25 +2,37 @@ from .abstract import AbstractDALSMOLQuiz
 from functools import lru_cache
 from models.database import OrmSMOLQuiz
 from sqlalchemy import func, select
-from ._engine import _postgres_async_session
+from sqlalchemy.ext.asyncio import AsyncSession
+from typing import List
 
 
 class DALSMOLQuiz(AbstractDALSMOLQuiz):
     async def create(
-        self: 'DALSMOLQuiz'
+        self: 'DALSMOLQuiz',
+        compatibility_quiz_id: int,
+        is_male: bool,
+        quiz: List[bool],
+        session: AsyncSession
     ) -> OrmSMOLQuiz:
-        pass
-
+        orm_smol_quiz = OrmSMOLQuiz(
+            compatibility_quiz_id=compatibility_quiz_id,
+            is_male=is_male,
+            quiz=quiz
+        )
+        session.add(orm_smol_quiz)
+        await session.flush()
+        await session.refresh(orm_smol_quiz)
+        return orm_smol_quiz
 
     async def get_by_id(
-        self: 'DALSMOLQuiz'
+        self: 'DALSMOLQuiz',
+        session: AsyncSession
     ) -> OrmSMOLQuiz:
-        async with _postgres_async_session() as session:
-            orm_famaly_love_quiz = await session.execute(
-                select(OrmSMOLQuiz)
-                .where(OrmSMOLQuiz.id == id)
-            )
-            return orm_famaly_love_quiz.scalar()
+        orm_smol_quiz = await session.execute(
+            select(OrmSMOLQuiz)
+            .where(OrmSMOLQuiz.id == id)
+        )
+        return orm_smol_quiz.scalar()
 
 
 @lru_cache()

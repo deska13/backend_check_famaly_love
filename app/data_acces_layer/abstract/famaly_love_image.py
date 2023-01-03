@@ -4,10 +4,10 @@ from typing import Optional
 from ._base import BaseAbstractDataAccessLayer
 
 
-class AbstractDALFamalyLoveQuiz(BaseAbstractDataAccessLayer):
+class AbstractDALFamalyLoveImage(BaseAbstractDataAccessLayer):
     @abstractmethod
     async def create(
-        self: 'AbstractDALFamalyLoveQuiz',
+        self: 'AbstractDALFamalyLoveImage',
         image_path: str
     ) -> None:
         pass

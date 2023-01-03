@@ -1,10 +1,9 @@
-from._base import BaseAPIModel
-from enum import Enum
-from typing import Optional, List
-from .famaly_love_image import BusinessFamalyLoveImages
-from enum import Enum
-from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeasEnum
 from datetime import datetime
+from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeasEnum
+from .famaly_love_image import BusinessFamalyLoveImages
+from typing import Optional, List
+from enum import Enum
+from ._base import BaseAPIModel
 
 
 class BusinessFamalyLoveQuiz(BaseAPIModel):
@@ -26,10 +25,7 @@ class BusinessFamalyLoveQuiz(BaseAPIModel):
     exchange_ideas: ExchangeIdeasEnum
     economy_sector_male: List[int]
     economy_sector_female: List[int]
-    
-    is_send_to_email: bool
-    is_consent_to_data_processing: bool
-    email: Optional[str] = None
+
 
 class BusinessFamalyLoveQuizDetail(BusinessFamalyLoveQuiz):
     images: BusinessFamalyLoveImages

@@ -8,9 +8,11 @@ class OrmClient(BaseOrmModel):
     __tablename__ = "client"
 
     id = Column(Integer, primary_key=True, nullable=False)
-    created_at = Column(DateTime, default=func.now(), nullable=False, index=True)
+    created_at = Column(DateTime, default=func.now(),
+                        nullable=False, index=True)
     updated_at = Column(
         DateTime, default=func.now(), onupdate=func.now(), nullable=False, index=True
     )
 
-    compatibility_quiz = relationship("OrmQuiz", cascade="all, delete")
+    compatibility_quiz = relationship(
+        "OrmCompatibilityQuiz", cascade="all, delete")

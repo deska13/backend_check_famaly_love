@@ -1,9 +1,9 @@
-from._base import BaseAPIModel
-from datetime import datetime
-from typing import Optional
-from .famaly_love_quiz import BusinessFamalyLoveQuiz
-from .mbti_quiz import BusinessMBTIQuiz
 from .smol_quiz import BusinessSMOLQuiz
+from .mbti_quiz import BusinessMBTIQuiz
+from .famaly_love_quiz import BusinessFamalyLoveQuiz
+from typing import Optional
+from datetime import datetime
+from ._base import BaseAPIModel
 
 
 class BusinessCompatibilityQuiz(BaseAPIModel):

@@ -1,14 +1,21 @@
 from abc import abstractmethod
 from typing import Optional, List
-from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeasEnum
+from sqlalchemy.ext.asyncio import AsyncSession
+from utils.models.famaly_love_quiz_enum import (
+    LeisurePreferencesCoincideEnum,
+    EducationLevelEnum,
+    HousingEnum,
+    ExploreTogetherEnum,
+    ExchangeIdeasEnum
+)
 
 from ._base import BaseAbstractDataAccessLayer
 
 
-class AbstractDALFamalyLoveImage(BaseAbstractDataAccessLayer):
+class AbstractDALFamalyLoveQuiz(BaseAbstractDataAccessLayer):
     @abstractmethod
     async def create(
-        self: 'AbstractDALFamalyLoveImage',
+        self: 'AbstractDALFamalyLoveQuiz',
         height_difference: int,
         weight_difference: int,
         age_difference: int,
@@ -26,6 +33,7 @@ class AbstractDALFamalyLoveImage(BaseAbstractDataAccessLayer):
         images: int,
         is_send_to_email: bool,
         is_consent_to_data_processing: bool,
+        session: AsyncSession,
         email: Optional[str] = None
     ) -> None:
         pass

@@ -1,7 +1,7 @@
-from._base import BaseAPIModel
-from typing import List
+from typing import Optional, List
+from ._base import BaseAPIModel
 
 
 class FamalyLoveImages(BaseAPIModel):
-    male_images: List[str]
-    female_images: List[str]
+    male_images: Optional[List[str]]
+    female_images: Optional[List[str]]

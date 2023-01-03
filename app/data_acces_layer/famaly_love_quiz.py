@@ -1,4 +1,4 @@
-from ._engine import _postgres_async_session
+from sqlalchemy.ext.asyncio import AsyncSession
 from models.database import OrmClient, OrmFamalyLoveQuiz
 from sqlalchemy import func, select
 from sqlalchemy.orm import selectinload
@@ -11,6 +11,7 @@ from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, E
 class DALFamalyLoveQuiz(AbstractDALFamalyLoveQuiz):
     async def create(
         self: 'DALFamalyLoveQuiz',
+        compatibility_quiz_id: int,
         height_difference: int,
         weight_difference: int,
         age_difference: int,
@@ -25,61 +26,53 @@ class DALFamalyLoveQuiz(AbstractDALFamalyLoveQuiz):
         exchange_ideas: ExchangeIdeasEnum,
         economy_sector_male: List[int],
         economy_sector_female: List[int],
-        is_send_to_email: bool,
-        is_consent_to_data_processing: bool,
-        email: Optional[str] = None,
+        session: AsyncSession,
     ) -> OrmFamalyLoveQuiz:
-        async with _postgres_async_session() as session:
-            orm_famaly_love_quiz = OrmFamalyLoveQuiz(
-                height_difference=height_difference,
-                weight_difference=weight_difference,
-                age_difference=age_difference,
-                alcoholism=alcoholism,
-                political_views_difference=political_views_difference,
-                leisure_preferences_coincide=leisure_preferences_coincide,
-                education_level=education_level,
-                salary_male=salary_male,
-                salary_female=salary_female,
-                housing=housing,
-                explore_together=explore_together,
-                exchange_ideas=exchange_ideas,
-                economy_sector_male=economy_sector_male,
-                economy_sector_female=economy_sector_female,
-                is_send_to_email=is_send_to_email,
-                is_consent_to_data_processing=is_consent_to_data_processing,
-                email=email
-            )
-            session.add(orm_famaly_love_quiz)
-            await session.commit()
-            await session.refresh(orm_famaly_love_quiz)
-            return await self.get_by_id(orm_famaly_love_quiz.id)
-
+        orm_famaly_love_quiz = OrmFamalyLoveQuiz(
+            compatibility_quiz_id=compatibility_quiz_id,
+            height_difference=height_difference,
+            weight_difference=weight_difference,
+            age_difference=age_difference,
+            alcoholism=alcoholism,
+            political_views_difference=political_views_difference,
+            leisure_preferences_coincide=leisure_preferences_coincide,
+            education_level=education_level,
+            salary_male=salary_male,
+            salary_female=salary_female,
+            housing=housing,
+            explore_together=explore_together,
+            exchange_ideas=exchange_ideas,
+            economy_sector_male=economy_sector_male,
+            economy_sector_female=economy_sector_female
+        )
+        session.add(orm_famaly_love_quiz)
+        await session.flush()
+        await session.refresh(orm_famaly_love_quiz)
+        return orm_famaly_love_quiz
 
     async def get_by_id(
         self: 'DALFamalyLoveQuiz',
-        id: int
+        id: int,
+        session: AsyncSession
     ) -> OrmFamalyLoveQuiz:
-        async with _postgres_async_session() as session:
-            orm_famaly_love_quiz = await session.execute(
-                select(OrmFamalyLoveQuiz)
-                .options(selectinload(OrmFamalyLoveQuiz.images))
-                .where(OrmFamalyLoveQuiz.id == id)
-            )
-            return orm_famaly_love_quiz.scalar()
-
+        orm_famaly_love_quiz = await session.execute(
+            select(OrmFamalyLoveQuiz)
+            .options(selectinload(OrmFamalyLoveQuiz.images))
+            .where(OrmFamalyLoveQuiz.id == id)
+        )
+        return orm_famaly_love_quiz.scalar()
 
     async def get_count(
-        self: 'DALFamalyLoveQuiz'
+        self: 'DALFamalyLoveQuiz',
+        session: AsyncSession
     ) -> int:
-        async with _postgres_async_session() as session:
-            count = await session.execute(
-                select(
-                    func.count()
-                )
-                .select_from(OrmFamalyLoveQuiz)
+        count = await session.execute(
+            select(
+                func.count()
             )
-            return count.scalar()
-
+            .select_from(OrmFamalyLoveQuiz)
+        )
+        return count.scalar()
 
     # async def update_by_id(
     #     self: 'DALFamalyLoveQuiz',
@@ -110,22 +103,19 @@ class DALFamalyLoveQuiz(AbstractDALFamalyLoveQuiz):
     #         )
     #         return self.get_by_id(id)
 
-
     async def delete_by_id(
         self: 'DALFamalyLoveQuiz',
-        id: int
+        id: int,
+        session: AsyncSession
     ) -> OrmFamalyLoveQuiz:
-        async with _postgres_async_session() as session:
-            orm_famaly_love_quiz = await session.execute(
-                select(OrmFamalyLoveQuiz)
-                .options(selectinload(OrmFamalyLoveQuiz.images))
-                .where(OrmFamalyLoveQuiz.id == id)
-            )
-            if not orm_famaly_love_quiz:
-                return None
-            await session.delete(orm_famaly_love_quiz)
-            await session.commit()
-            return orm_famaly_love_quiz
+        orm_famaly_love_quiz = await session.execute(
+            select(OrmFamalyLoveQuiz)
+            .options(selectinload(OrmFamalyLoveQuiz.images))
+            .where(OrmFamalyLoveQuiz.id == id)
+        )
+        if not orm_famaly_love_quiz:
+            return None
+        await session.delete(orm_famaly_love_quiz)
 
 
 @lru_cache()
