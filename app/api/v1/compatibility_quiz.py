@@ -167,7 +167,7 @@ async def get_result(
     else:
         count_famaly_years -= 3
 
-    if famaly_love_quiz.salary_male != 0:
+    if famaly_love_quiz.salary_male - famaly_love_quiz.salary_female != 0:
         percent_different_salary = (1 - (famaly_love_quiz.salary_male /
                                          (famaly_love_quiz.salary_male - famaly_love_quiz.salary_female))) * 100
         print(percent_different_salary)
