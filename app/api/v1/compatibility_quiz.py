@@ -12,6 +12,8 @@ from data_acces_layer import get_session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 from utils.models.famaly_love_quiz_enum import LeisurePreferencesCoincideEnum, EducationLevelEnum, HousingEnum, ExploreTogetherEnum, ExchangeIdeasEnum
+from utils.models import CharacterType, PersonalityType
+
 
 router = APIRouter()
 
@@ -48,20 +50,23 @@ async def send_quiz_famaly_love(
         **compatibility_quiz.famaly_love_quiz.dict(),
         session=session
     )
-    for male_image in compatibility_quiz.images.male_images:
-        orm_famaly_love_image = await famaly_love_image_service.create(
-            orm_famaly_love_quiz_service.id,
-            is_male=True,
-            image_path=male_image,
-            session=session
-        )
-    for female_image in compatibility_quiz.images.female_images:
-        orm_famaly_love_image = await famaly_love_image_service.create(
-            orm_famaly_love_quiz_service.id,
-            is_male=False,
-            image_path=female_image,
-            session=session
-        )
+    if not compatibility_quiz.images is None:
+        if not compatibility_quiz.images.male_images is None:
+            for male_image in compatibility_quiz.images.male_images:
+                orm_famaly_love_image = await famaly_love_image_service.create(
+                    orm_famaly_love_quiz_service.id,
+                    is_male=True,
+                    image_path=male_image,
+                    session=session
+                )
+        if not compatibility_quiz.images.female_images is None:
+            for female_image in compatibility_quiz.images.female_images:
+                orm_famaly_love_image = await famaly_love_image_service.create(
+                    orm_famaly_love_quiz_service.id,
+                    is_male=False,
+                    image_path=female_image,
+                    session=session
+                )
     orm_mbti_female = await mbti_quiz_service.create(
         orm_compatibility_quiz.id,
         **compatibility_quiz.mbti_quiz_female.dict(),
@@ -105,6 +110,10 @@ async def get_result(
     session: AsyncSession = Depends(get_session)
 ):
     compatibility_quiz = await compatibility_quiz_service.get_by_id(id=id, session=session)
+    male_personality_type = PersonalityType.NONE
+    male_character_type = CharacterType.NONE
+    female_personality_type = PersonalityType.NONE
+    female_character_type = CharacterType.NONE
 
     count_famaly_years = 1
     famaly_love_quiz = compatibility_quiz.famaly_love_quiz
@@ -182,7 +191,7 @@ async def get_result(
         elif percent_different_salary < 50:
             count_famaly_years += round(
                 abs(percent_different_salary - 17) / 33 * 1)
-    else:
+    elif famaly_love_quiz.salary_male == 0:
         count_famaly_years -= 2
 
     if famaly_love_quiz.housing == HousingEnum.YES:
@@ -215,6 +224,7 @@ async def get_result(
         count_famaly_years += 5
 
     compatibility_quiz.mbti_quiz_male
+
     compatibility_quiz.mbti_quiz_female
     compatibility_quiz.smol_quiz_male
     compatibility_quiz.smol_quiz_female
@@ -223,7 +233,11 @@ async def get_result(
 
     return ResultCompatibilityQuiz(
         status=StatusProcessingCompatibilityQuizEnum.OK,
-        description=f'{count_famaly_years} лет'
+        male_personality_type=male_personality_type,
+        male_character_type=male_character_type,
+        female_personality_type=female_personality_type,
+        female_character_type=female_character_type,
+        years_compatibility_str=f'{count_famaly_years} лет'
     )
 
     return count_famaly_years

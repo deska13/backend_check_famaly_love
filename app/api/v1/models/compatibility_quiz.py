@@ -5,6 +5,7 @@ from .mbti_quiz import MBTIQuiz
 from .famaly_love_images import FamalyLoveImages
 from .famaly_love_quiz import FamalyLoveQuiz
 from ._base import BaseAPIModel
+from utils.models import CharacterType, PersonalityType
 
 
 class CompatibilityQuiz(BaseAPIModel):
@@ -33,4 +34,11 @@ class ResultCompatibilityQuiz(BaseAPIModel):
     traceback: Optional[str] = None
     is_load_new_image: bool = False
     is_load_new_quiz: bool = False
+
+    male_personality_type: Optional[PersonalityType]
+    male_character_type: Optional[CharacterType]
+    female_personality_type: Optional[PersonalityType]
+    female_character_type: Optional[CharacterType]
+    years_compatibility_str: Optional[str]
+
     description: Optional[str] = None
