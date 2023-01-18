@@ -36,9 +36,14 @@ class ResultCompatibilityQuiz(BaseAPIModel):
     is_load_new_quiz: bool = False
 
     male_personality_type: Optional[PersonalityType]
+    male_personality_desc: str = ''
     male_character_type: Optional[CharacterType]
+    male_character_desc: str = ''
     female_personality_type: Optional[PersonalityType]
+    female_personality_desc: str = ''
     female_character_type: Optional[CharacterType]
+    female_character_desc: str = ''
     years_compatibility_str: Optional[str]
+    years_business_str: Optional[str]
 
     description: Optional[str] = None
